@@ -1,10 +1,10 @@
 version: '3'
 services:
   project_db:
-    image: mysql:5.7
+    image: mysql:latest
     restart: always
     environment:
-      MYSQL_DATABASE: mydb
+      MYSQL_DATABASE: db
       MYSQL_USER: user
       MYSQL_PASSWORD: password
       MYSQL_ROOT_PASSWORD: supassword
@@ -12,15 +12,9 @@ services:
       - "3306:3306"
   builder:
     build: builder/
-    volumes:
-      - appdata:/App42PaaS-Java-MySQL-Sample/target
-  web:
-    build: web/
-    volumes:
-      - appdata:/usr/local/tomcat/webapps/
     ports:
       - "8080:8080"
     depends_on:
-      - builder
+      - project_db
 volumes:
   appdata:
